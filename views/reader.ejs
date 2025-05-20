@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading: Peer-e-Kamil | Urdu Novels</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&display=swap');
+        .urdu-content {
+            font-family: 'Noto Nastaliq Urdu', serif;
+            line-height: 3;
+            font-size: 1.3rem;
+            direction: rtl;
+            text-align: justify;
+        }
+        .dark-mode {
+            background-color: #1a202c;
+            color: #e2e8f0;
+        }
+        .sepia-mode {
+            background-color: #f3eacb;
+            color: #5f4b32;
+        }
+    </style>
+</head>
+<body class="bg-white">
+    <!-- Reading Header -->
+    <header class="bg-amber-700 text-white shadow-md sticky top-0 z-10">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <button id="back-button" class="hover:text-amber-200 flex items-center">
+                    <i class="fas fa-arrow-left mr-2"></i> Back to Library
+                </button>
+                <h1 class="text-xl font-bold hidden md:block">Urdu Novels Reader</h1>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <div class="hidden sm:flex items-center space-x-2">
+                    <span class="text-sm">Font Size:</span>
+                    <button class="font-size-btn px-2 py-1 rounded hover:bg-amber-600" data-size="small">A</button>
+                    <button class="font-size-btn px-2 py-1 rounded hover:bg-amber-600" data-size="medium">A</button>
+                    <button class="font-size-btn px-2 py-1 rounded hover:bg-amber-600 font-bold" data-size="large">A</button>
+                </div>
+                
+                <div class="hidden sm:flex items-center space-x-2">
+                    <span class="text-sm">Theme:</span>
+                    <button class="theme-btn p-1 rounded-full border border-white hover:bg-amber-600" data-theme="light">
+                        <i class="fas fa-sun"></i>
+                    </button>
+                    <button class="theme-btn p-1 rounded-full border border-white hover:bg-amber-600" data-theme="sepia">
+                        <i class="fas fa-book-open"></i>
+                    </button>
+                    <button class="theme-btn p-1 rounded-full border border-white hover:bg-amber-600" data-theme="dark">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+                
+                <button class="p-2 rounded-full hover:bg-amber-600" id="bookmark-btn">
+                    <i class="far fa-bookmark"></i>
+                </button>
+                
+                <div class="relative">
+                    <button class="p-2 rounded-full hover:bg-amber-600" id="chapter-dropdown-btn">
+                        <i class="fas fa-list"></i>
+                    </button>
+                    <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20 hidden" id="chapter-dropdown">
+                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-amber-100">Chapter 1</a>
+                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-amber-100">Chapter 2</a>
+                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-amber-100">Chapter 3</a>
+                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-amber-100">Chapter 4</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Novel Info Bar -->
+    <div class="bg-amber-50 py-2 px-4 border-b">
+        <div class="container mx-auto flex justify-between items-center">
+            <div>
+                <h2 class="text-lg font-semibold">پیر فقیر</h2>
+                <p class="text-sm text-gray-600">By عمرہ احمد</p>
+            </div>
+            <div class="text-sm">
+                <span class="text-amber-700">Chapter 2 of 15</span>
+                <span class="mx-2">|</span>
+                <span>45% completed</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reading Content -->
+    <main class="container mx-auto px-4 py-8 max-w-4xl">
+        <article class="urdu-content" id="novel-content">
+            <h1 class="text-3xl font-bold mb-8 text-center">باب دوم</h1>
+            
+            <p class="mb-6">وہ صبح جب میں نے اپنی آنکھیں کھولیں، سورج کی کرنیں کھڑکی سے اندر آ رہی تھیں۔ میں نے اپنے کمرے کے گرد نظر دوڑائی۔ وہی پرانا الماری، وہی کرسی جس پر میرا اسکول بیگ پڑا تھا، اور وہی دیوار گھڑی جس کی ٹک ٹک آواز نے مجھے جگا دیا تھا۔</p>
+            
+            <p class="mb-6">میں نے اٹھنے کی کوشش کی تو مجھے محسوس ہوا جیسے میرا جسم بہت بھاری ہو گیا ہو۔ شاید کل رات دیر تک پڑھنے کی وجہ سے۔ امتحانات قریب آ رہے تھے اور میں اپنی تیاری سے مطمئن نہیں تھا۔</p>
+            
+            <p class="mb-6">نیچے سے ماں کی آواز آئی، "بیٹا، اٹھ گئے ہو؟ ناشتہ تیار ہے۔" میں نے جواب دیا، "ہاں امی، آ رہا ہوں۔" لیکن میری آواز میں وہ توانائی نہیں تھی جو عام طور پر ہوتی تھی۔</p>
+            
+            <p class="mb-6">جب میں نیچے آیا تو میز پر گرم گرم پراٹھے، انڈے اور چائے کا انتظار کر رہے تھے۔ ماں نے میری طرف دیکھا اور پوچھا، "کیا بات ہے؟ تمہیں کچھ تکلیف ہے؟" میں نے کہا، "نہیں امی، بس تھوڑا سا سر درد ہے۔"</p>
+            
+            <p class="mb-6">ماں نے فوراً اپنا ہاتھ میرے ماتھے پر رکھا۔ "تمہیں بخار تو نہیں؟" میں نے کہا، "نہیں امی، میں ٹھیک ہوں۔" لیکن ماں کو یقین نہیں آیا۔ اس نے مجھے اسکول نہ جانے کا مشورہ دیا، لیکن میں نے انکار کر دیا۔</p>
+            
+            <p class="mb-6">اسکول کے راستے میں میرا دوست علی مل گیا۔ اس نے میرا چہرہ دیکھتے ہی پوچھا، "کیا ہوا؟ تمہارا رنگ اڑا ہوا ہے۔" میں نے کہا، "کچھ نہیں، بس تھوڑا سا سر درد ہے۔" علی نے کہا، "شاید تمہیں آرام کی ضرورت ہے۔"</p>
+            
+            <p class="mb-6">کلاس میں بیٹھے بیٹھے میرا سر درد بڑھتا گیا۔ استاد کی آواز دور دور سے آ رہی تھی۔ میں نے کاپی پر کچھ لکھنے کی کوشش کی، لیکن حروف دھندلے سے نظر آ رہے تھے۔</p>
+            
+            <p class="mb-6">اچانک مجھے محسوس ہوا جیسے کمرہ گھوم رہا ہو۔ میں نے اپنی آنکھیں بند کیں، لیکن یہ احساس اور بڑھ گیا۔ پھر میں نے اپنے آپ کو زمین پر گرتے ہوئے محسوس کیا۔</p>
+            
+            <p class="mb-6">جب میں ہوش میں آیا تو میں اسکول کے کلینک میں تھا۔ نرس میرے پاس کھڑی تھی۔ اس نے مسکراتے ہوئے کہا، "تم ہوش میں آ گئے ہو۔ تمہیں شدید بخار ہے۔ تمہارے والدین کو بلایا جا چکا ہے۔"</p>
+            
+            <p class="mb-6">میں نے اپنے آپ کو بہت کمزور محسوس کیا۔ میں نے سوچا کہ اگر میں نے ماں کی بات مان لی ہوتی تو شاید یہ نہ ہوتا۔ اب مجھے اپنی ضد پر پچھتاوا ہو رہا تھا۔</p>
+        </article>
+    </main>
+
+    <!-- Reading Navigation -->
+    <div class="bg-gray-50 py-4 border-t">
+        <div class="container mx-auto px-4 flex justify-between">
+            <button class="bg-amber-600 hover:bg-amber-700 text-white px-6 py-2 rounded-lg flex items-center">
+                <i class="fas fa-arrow-left mr-2"></i> Previous Chapter
+            </button>
+            <div class="text-center">
+                <div class="w-64 bg-gray-200 rounded-full h-2.5 mx-auto mb-2">
+                    <div class="bg-amber-600 h-2.5 rounded-full" style="width: 45%"></div>
+                </div>
+                <span class="text-sm text-gray-600">45% completed</span>
+            </div>
+            <button class="bg-amber-600 hover:bg-amber-700 text-white px-6 py-2 rounded-lg flex items-center">
+                Next Chapter <i class="fas fa-arrow-right ml-2"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-4 text-center">
+            <p>© 2023 Urdu Novels. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Back button functionality
+        document.getElementById('back-button').addEventListener('click', function() {
+            window.location.href = 'index.html'; // Change to your library page URL
+        });
+
+        // Font size adjustment
+        const fontSizes = {
+            small: '1.1rem',
+            medium: '1.3rem',
+            large: '1.6rem'
+        };
+
+        document.querySelectorAll('.font-size-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const size = this.getAttribute('data-size');
+                document.getElementById('novel-content').style.fontSize = fontSizes[size];
+                
+                // Update active button
+                document.querySelectorAll('.font-size-btn').forEach(b => b.classList.remove('font-bold', 'bg-amber-600'));
+                this.classList.add('font-bold', 'bg-amber-600');
+            });
+        });
+
+        // Theme switcher
+        document.querySelectorAll('.theme-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const theme = this.getAttribute('data-theme');
+                document.body.className = theme === 'dark' ? 'dark-mode' : 
+                                        theme === 'sepia' ? 'sepia-mode' : 'bg-white';
+                
+                // Update active button
+                document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('bg-amber-600'));
+                this.classList.add('bg-amber-600');
+            });
+        });
+
+        // Bookmark functionality
+        let bookmarked = false;
+        document.getElementById('bookmark-btn').addEventListener('click', function() {
+            bookmarked = !bookmarked;
+            this.innerHTML = bookmarked ? '<i class="fas fa-bookmark"></i>' : '<i class="far fa-bookmark"></i>';
+            
+            // Show notification
+            const notification = document.createElement('div');
+            notification.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg';
+            notification.textContent = bookmarked ? 'Chapter bookmarked!' : 'Bookmark removed!';
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 2000);
+        });
+
+        // Chapter dropdown
+        document.getElementById('chapter-dropdown-btn').addEventListener('click', function() {
+            document.getElementById('chapter-dropdown').classList.toggle('hidden');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('#chapter-dropdown-btn') && !event.target.closest('#chapter-dropdown')) {
+                document.getElementById('chapter-dropdown').classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

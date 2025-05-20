@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | Urdu Novels</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&display=swap');
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+        .urdu-input {
+            font-family: 'Noto Nastaliq Urdu', serif;
+            direction: rtl;
+            text-align: right;
+        }
+        .page {
+            display: none;
+        }
+        .page.active {
+            display: block;
+        }
+        .nav-link.active {
+            background-color: #b45309;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Admin Layout -->
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="sidebar bg-amber-800 text-white w-64 space-y-6 py-7 px-2 absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out" id="sidebar">
+            <div class="text-white flex items-center space-x-2 px-4">
+                <i class="fas fa-book-open text-2xl"></i>
+                <span class="text-xl font-bold">Urdu Novels Admin</span>
+            </div>
+            <nav>
+                <a href="#" class="nav-link block py-2.5 px-4 rounded transition duration-200 hover:bg-amber-700 text-white active" data-page="dashboard">
+                    <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
+                </a>
+                <a href="#" class="nav-link block py-2.5 px-4 rounded transition duration-200 hover:bg-amber-700 text-white" data-page="novels">
+                    <i class="fas fa-book mr-2"></i>Novels
+                </a>
+                <a href="#" class="nav-link block py-2.5 px-4 rounded transition duration-200 hover:bg-amber-700 text-white" data-page="authors">
+                    <i class="fas fa-user-edit mr-2"></i>Authors
+                </a>
+                <a href="#" class="nav-link block py-2.5 px-4 rounded transition duration-200 hover:bg-amber-700 text-white" data-page="categories">
+                    <i class="fas fa-tags mr-2"></i>Categories
+                </a>
+                <a href="#" class="nav-link block py-2.5 px-4 rounded transition duration-200 hover:bg-amber-700 text-white" data-page="settings">
+                    <i class="fas fa-cog mr-2"></i>Settings
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top Navigation -->
+            <header class="bg-white shadow-sm">
+                <div class="flex items-center justify-between px-6 py-3">
+                    <div class="flex items-center">
+                        <button id="sidebarToggle" class="text-gray-500 focus:outline-none md:hidden">
+                            <i class="fas fa-bars text-xl"></i>
+                        </button>
+                        <h1 class="text-xl font-semibold text-gray-800 ml-4" id="pageTitle">Dashboard</h1>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="relative">
+                            <button class="text-gray-500 focus:outline-none">
+                                <i class="fas fa-bell text-xl"></i>
+                                <span class="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
+                            </button>
+                        </div>
+                        <div class="relative">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Admin" class="w-8 h-8 rounded-full cursor-pointer" id="userMenuButton">
+                            <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-10" id="userMenu">
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Your Profile</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content Area -->
+            <main class="flex-1 overflow-y-auto p-6 bg-gray-50">
+                <!-- Dashboard Page -->
+                <div id="dashboard" class="page active">
+                    <div class="max-w-6xl mx-auto">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                            <!-- Stats Cards -->
+                            <div class="bg-white p-6 rounded-lg shadow">
+                                <div class="flex items-center">
+                                    <div class="p-3 rounded-full bg-amber-100 text-amber-600">
+                                        <i class="fas fa-book text-xl"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <p class="text-gray-500">Total Novels</p>
+                                        <h3 class="text-2xl font-bold">1,248</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-white p-6 rounded-lg shadow">
+                                <div class="flex items-center">
+                                    <div class="p-3 rounded-full bg-blue-100 text-blue-600">
+                                        <i class="fas fa-user-edit text-xl"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <p class="text-gray-500">Authors</p>
+                                        <h3 class="text-2xl font-bold">187</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-white p-6 rounded-lg shadow">
+                                <div class="flex items-center">
+                                    <div class="p-3 rounded-full bg-green-100 text-green-600">
+                                        <i class="fas fa-eye text-xl"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <p class="text-gray-500">Daily Visitors</p>
+                                        <h3 class="text-2xl font-bold">5,632</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-white p-6 rounded-lg shadow">
+                                <div class="flex items-center">
+                                    <div class="p-3 rounded-full bg-purple-100 text-purple-600">
+                                        <i class="fas fa-eye text-xl"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <p class="text-gray-500">Daily Views</p>
+                                        <h3 class="text-2xl font-bold">12,487</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Activity -->
+                        <div class="bg-white rounded-lg shadow p-6 mb-6">
+                            <h2 class="text-xl font-semibold mb-4">Recent Activity</h2>
+                            <div class="space-y-4">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0">
+                                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" class="h-8 w-8 rounded-full">
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="text-sm font-medium">Sarah Khan added a new novel</p>
+                                        <p class="text-sm text-gray-500">Peer-e-Kamil - 2 hours ago</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0">
+                                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="h-8 w-8 rounded-full">
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="text-sm font-medium">You updated author profile</p>
+                                        <p class="text-sm text-gray-500">Umera Ahmed - 5 hours ago</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0">
+                                        <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="User" class="h-8 w-8 rounded-full">
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="text-sm font-medium">Ali Raza created new category</p>
+                                        <p class="text-sm text-gray-500">Spiritual - Yesterday</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Actions -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-white rounded-lg shadow p-6">
+                                <h2 class="text-xl font-semibold mb-4">Quick Actions</h2>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <a href="#" class="p-4 border rounded-lg text-center hover:bg-amber-50 transition" data-page="novels">
+                                        <i class="fas fa-book text-2xl text-amber-600 mb-2"></i>
+                                        <p>Add Novel</p>
+                                    </a>
+                                    <a href="#" class="p-4 border rounded-lg text-center hover:bg-blue-50 transition" data-page="authors">
+                                        <i class="fas fa-user-edit text-2xl text-blue-600 mb-2"></i>
+                                        <p>Add Author</p>
+                                    </a>
+                                    <a href="#" class="p-4 border rounded-lg text-center hover:bg-green-50 transition" data-page="categories">
+                                        <i class="fas fa-tags text-2xl text-green-600 mb-2"></i>
+                                        <p>Add Category</p>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="bg-white rounded-lg shadow p-6">
+                                <h2 class="text-xl font-semibold mb-4">Recent Novels</h2>
+                                <div class="space-y-3">
+                                    <div class="flex items-center p-2 hover:bg-gray-50 rounded">
+                                        <img src="https://m.media-amazon.com/images/I/71X9NvQYbAL._AC_UF1000,1000_QL80_.jpg" alt="Novel" class="w-12 h-16 object-cover rounded">
+                                        <div class="ml-3">
+                                            <p class="font-medium">Peer-e-Kamil</p>
+                                            <p class="text-sm text-gray-500">Umera Ahmed</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center p-2 hover:bg-gray-50 rounded">
+                                        <img src="https://m.media-amazon.com/images/I/81qFqL+YsTL._AC_UF1000,1000_QL80_.jpg" alt="Novel" class="w-12 h-16 object-cover rounded">
+                                        <div class="ml-3">
+                                            <p class="font-medium">Raja Gidh</p>
+                                            <p class="text-sm text-gray-500">Bano Qudsia</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center p-2 hover:bg-gray-50 rounded">
+                                        <img src="https://m.media-amazon.com/images/I/71XwG0OZb5L._AC_UF1000,1000_QL80_.jpg" alt="Novel" class="w-12 h-16 object-cover rounded">
+                                        <div class="ml-3">
+                                            <p class="font-medium">Aag Ka Darya</p>
+                                            <p class="text-sm text-gray-500">Quratulain Hyder</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Novels Page -->
+                <div id="novels" class="page">
+                    <div class="max-w-6xl mx-auto">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-2xl font-semibold">Novels Management</h2>
+                            <button class="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg" id="addNovelBtn">
+                                <i class="fas fa-plus mr-2"></i>Add Novel
+                            </button>
+                        </div>
+
+                        <!-- Novel List Table -->
+                        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                            <div class="p-4 border-b">
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center">
+                                        <span class="mr-2">Show</span>
+                                        <select class="border rounded px-2 py-1">
+                                            <option>10</option>
+                                            <option>25</option>
+                                            <option>50</option>
+                                            <option>100</option>
+                                        </select>
+                                        <span class="ml-2">entries</span>
+                                    </div>
+                                    <div class="relative">
+                                        <input type="text" placeholder="Search..." class="border rounded px-4 py-1 pl-8">
+                                        <i class="fas fa-search absolute left-3 top-2 text-gray-400"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cover</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Author</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Categories</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <img src="https://m.media-amazon.com/images/I/71X9NvQYbAL._AC_UF1000,1000_QL80_.jpg" alt="Cover" class="h-12 w-9 object-cover rounded">
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium text-gray-900">Peer-e-Kamil</div>
+                                            <div class="text-sm text-gray-500 urdu-input">پیر کامل</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">Umera Ahmed</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Spiritual</span>
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Romance</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Published</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-amber-600 hover:text-amber-900 mr-3"><i class="fas fa-edit"></i></a>
+                                            <a href="#" class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <img src="https://m.media-amazon.com/images/I/81qFqL+YsTL._AC_UF1000,1000_QL80_.jpg" alt="Cover" class="h-12 w-9 object-cover rounded">
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium text-gray-900">Raja Gidh</div>
+                                            <div class="text-sm text-gray-500 urdu-input">راجہ گدھ</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">Bano Qudsia</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">Philosophy</span>
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Classic</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Published</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-amber-600 hover:text-amber-900 mr-3"><i class="fas fa-edit"></i></a>
+                                            <a href="#" class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <img src="https://m.media-amazon.com/images/I/71XwG0OZb5L._AC_UF1000,1000_QL80_.jpg" alt="Cover" class="h-12 w-9 object-cover rounded">
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium text-gray-900">Aag Ka Darya</div>
+                                            <div class="text-sm text-gray-500 urdu-input">آگ کا دریا</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">Quratulain Hyder</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Classic</span>
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-indigo-100 text-indigo-800">Historical</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Published</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-amber-600 hover:text-amber-900 mr-3"><i class="fas fa-edit"></i></a>
+                                            <a href="#" class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="p-4 border-t flex justify-between items-center">
+                                <div class="text-sm text-gray-700">
+                                    Showing <span class="font-medium">1</span> to <span class="font-medium">3</span> of <span class="font-medium">3</span> entries
+                                </div>
+                                <div class="flex space-x-1">
+                                    <button class="px-3 py-1 border rounded bg-gray-100 text-gray-600">Previous</button>
+                                    <button class="px-3 py-1 border rounded bg-amber-600 text-white">1</button>
+                                    <button class="px-3 py-1 border rounded bg-gray-100 text-gray-600">Next</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Authors Page -->
+                <div id="authors" class="page">
+                    <div class="max-w-6xl mx-auto">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-2xl font-semibold">Authors Management</h2>
+                            <button class="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg" id="addAuthorBtn">
+                                <i class="fas fa-plus mr-2"></i>Add Author
+                            </button>
+                        </div>
+
+                        <!-- Authors Table -->
+                        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                            <div class="p-4 border-b">
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center">
+                                        <span class="mr-2">Show</span>
+                                        <select class="border rounded px-2 py-1">
+                                            <option>10</option>
+                                            <option>25</option>
+                                            <option>50</option>
+                                            <option>100</option>
+                                        </select>
+                                        <span class="ml-2">entries</span>
+                                    </div>
+                                    <div class="relative">
+                                        <input type="text" placeholder="Search..." class="border rounded px-4 py-1 pl-8">
+                                        <i class="fas fa-search absolute left-3 top-2 text-gray-400"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Photo</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Novels</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bio</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Umera_Ahmed.jpg/220px-Umera_Ahmed.jpg" alt="Author" class="h-10 w-10 rounded-full object-cover">
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium text-gray-900">Umera Ahmed</div>
+                                            <div class="text-sm text-gray-500 urdu-input">عمرہ احمد</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">24</div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="text-sm text-gray-500 truncate max-w-xs">Pakistani novelist known for her spiritual and romantic fiction...</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-amber-600 hover:text-amber-900 mr-3"><i class="fas fa-edit"></i></a>
+                                            <a href="#" class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Bano_Qudsia.jpg/220px-Bano_Qudsia.jpg" alt="Author" class="h-10 w-10 rounded-full object-cover">
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium text-gray-900">Bano Qudsia</div>
+                                            <div class="text-sm text-gray-500 urdu-input">بانو قدسیہ</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">15</div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="text-sm text-gray-500 truncate max-w-xs">Renowned Pakistani writer, playwright and spiritualist...</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-amber-600 hover:text-amber-900 mr-3"><i class="fas fa-edit"></i></a>
+                                            <a href="#" class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Qurratulain_Hyder.jpg/220px-Qurratulain_Hyder.jpg" alt="Author" class="h-10 w-10 rounded-full object-cover">
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium text-gray-900">Quratulain Hyder</div>
+                                            <div class="text-sm text-gray-500 urdu-input">قرۃ العین حیدر</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">18</div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="text-sm text-gray-500 truncate max-w-xs">Indian Urdu novelist and short story writer, academic, and journalist...</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-amber-600 hover:text-amber-900 mr-3"><i class="fas fa-edit"></i></a>
+                                            <a href="#" class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="p-4 border-t flex justify-between items-center">
+                                <div class="text-sm text-gray-700">
+                                    Showing <span class="font-medium">1</span> to <span class="font-medium">3</span> of <span class="font-medium">3</span> entries
+                                </div>
+                                <div class="flex space-x-1">
+                                    <button class="px-3 py-1 border rounded bg-gray-100 text-gray-600">Previous</button>
+                                    <button class="px-3 py-1 border rounded bg-amber-600 text-white">1</button>
+                                    <button class="px-3 py-1 border rounded bg-gray-100 text-gray-600">Next</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Categories Page -->
+                <div id="categories" class="page">
+                    <div class="max-w-6xl mx-auto">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-2xl font-semibold">Categories Management</h2>
+                            <button class="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg" id="addCategoryBtn">
+                                <i class="fas fa-plus mr-2"></i>Add Category
+                            </button>
+                        </div>
+
+                        <!-- Categories Table -->
+                        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                            <div class="p-4 border-b">
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center">
+                                        <span class="mr-2">Show</span>
+                                        <select class="border rounded px-2 py-1">
+                                            <option>10</option>
+                                            <option>25</option>
+                                            <option>50</option>
+                                            <option>100</option>
+                                        </select>
+                                        <span class="ml-2">entries</span>
+                                    </div>
+                                    <div class="relative">
+                                        <input type="text" placeholder="Search..." class="border rounded px-4 py-1 pl-8">
+                                        <i class="fas fa-search absolute left-3 top-2 text-gray-400"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Urdu Name</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Novels</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium text-gray-900">Romance</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-500 urdu-input">رومانوی</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">324</div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="text-sm text-gray-500 truncate max-w-xs">Novels focusing on love and relationships</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-amber-600 hover:text-amber-900 mr-3"><i class="fas fa-edit"></i></a>
+                                            <a href="#" class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium text-gray-900">Spiritual</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-500 urdu-input">روحانی</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">187</div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="text-sm text-gray-500 truncate max-w-xs">Novels with spiritual and religious themes</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-amber-600 hover:text-amber-900 mr-3"><i class="fas fa-edit"></i></a>
+                                            <a href="#" class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium text-gray-900">Historical</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-500 urdu-input">تاریخی</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">156</div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="text-sm text-gray-500 truncate max-w-xs">Novels set in historical periods</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-amber-600 hover:text-amber-900 mr-3"><i class="fas fa-edit"></i></a>
+                                            <a href="#" class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="p-4 border-t flex justify-between items-center">
+                                <div class="text-sm text-gray-700">
+                                    Showing <span class="font-medium">1</span> to <span class="font-medium">3</span> of <span class="font-medium">3</span> entries
+                                </div>
+                                <div class="flex space-x-1">
+                                    <button class="px-3 py-1 border rounded bg-gray-100 text-gray-600">Previous</button>
+                                    <button class="px-3 py-1 border rounded bg-amber-600 text-white">1</button>
+                                    <button class="px-3 py-1 border rounded bg-gray-100 text-gray-600">Next</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Page -->
+                <div id="settings" class="page">
+                    <div class="max-w-6xl mx-auto">
+                        <h2 class="text-2xl font-semibold mb-6">Settings</h2>
+                        
+                        <div class="bg-white shadow-md rounded-lg overflow-hidden mb-6">
+                            <div class="p-4 border-b bg-gray-50">
+                                <h3 class="text-lg font-medium">General Settings</h3>
+                            </div>
+                            <div class="p-6">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-gray-700 font-medium mb-2">Site Title</label>
+                                        <input type="text" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500" value="Urdu Novels">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 font-medium mb-2">Site Language</label>
+                                        <select class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500">
+                                            <option>English</option>
+                                            <option>Urdu</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 font-medium mb-2">Time Zone</label>
+                                        <select class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500">
+                                            <option>(UTC+05:00) Islamabad, Karachi</option>
+                                            <option>(UTC+04:00) Abu Dhabi, Muscat</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 font-medium mb-2">Date Format</label>
+                                        <select class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500">
+                                            <option>F j, Y</option>
+                                            <option>Y-m-d</option>
+                                            <option>m/d/Y</option>
+                                            <option>d/m/Y</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-4 border-t bg-gray-50 flex justify-end">
+                                <button class="bg-amber-600 hover:bg-amber-700 text-white px-6 py-2 rounded-lg">Save Changes</button>
+                            </div>
+                        </div>
+
+                        <div class="bg-white shadow-md rounded-lg overflow-hidden mb-6">
+                            <div class="p-4 border-b bg-gray-50">
+                                <h3 class="text-lg font-medium">Reading Settings</h3>
+                            </div>
+                            <div class="p-6">
+                                <div class="mb-4">
+                                    <label class="block text-gray-700 font-medium mb-2">Default Reading Mode</label>
+                                    <div class="flex space-x-4">
+                                        <div class="flex items-center">
+                                            <input type="radio" id="lightMode" name="readingMode" class="h-4 w-4 text-amber-600 focus:ring-amber-500" checked>
+                                            <label for="lightMode" class="ml-2 text-gray-700">Light Mode</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="radio" id="darkMode" name="readingMode" class="h-4 w-4 text-amber-600 focus:ring-amber-500">
+                                            <label for="darkMode" class="ml-2 text-gray-700">Dark Mode</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="radio" id="sepiaMode" name="readingMode" class="h-4 w-4 text-amber-600 focus:ring-amber-500">
+                                            <label for="sepiaMode" class="ml-2 text-gray-700">Sepia Mode</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <label class="block text-gray-700 font-medium mb-2">Default Font Size</label>
+                                    <select class="w-full md:w-1/2 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500">
+                                        <option>Small</option>
+                                        <option selected>Medium</option>
+                                        <option>Large</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 font-medium mb-2">Reading Progress Display</label>
+                                    <div class="flex space-x-4">
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="showProgress" class="h-4 w-4 text-amber-600 focus:ring-amber-500 border-gray-300 rounded" checked>
+                                            <label for="showProgress" class="ml-2 text-gray-700">Show progress bar</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="checkbox" id="showPercentage" class="h-4 w-4 text-amber-600 focus:ring-amber-500 border-gray-300 rounded" checked>
+                                            <label for="showPercentage" class="ml-2 text-gray-700">Show percentage</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-4 border-t bg-gray-50 flex justify-end">
+                                <button class="bg-amber-600 hover:bg-amber-700 text-white px-6 py-2 rounded-lg">Save Changes</button>
+                            </div>
+                        </div>
+
+                        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                            <div class="p-4 border-b bg-gray-50">
+                                <h3 class="text-lg font-medium">Maintenance</h3>
+                            </div>
+                            <div class="p-6">
+                                <div class="mb-4">
+                                    <label class="block text-gray-700 font-medium mb-2">Site Status</label>
+                                    <div class="flex space-x-4">
+                                        <div class="flex items-center">
+                                            <input type="radio" id="siteOnline" name="siteStatus" class="h-4 w-4 text-amber-600 focus:ring-amber-500" checked>
+                                            <label for="siteOnline" class="ml-2 text-gray-700">Online</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input type="radio" id="siteMaintenance" name="siteStatus" class="h-4 w-4 text-amber-600 focus:ring-amber-500">
+                                            <label for="siteMaintenance" class="ml-2 text-gray-700">Maintenance Mode</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="maintenanceMessageContainer" class="hidden">
+                                    <label class="block text-gray-700 font-medium mb-2">Maintenance Message</label>
+                                    <textarea rows="3" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500">We're currently performing maintenance. We'll be back soon!</textarea>
+                                </div>
+                                <div class="mt-6">
+                                    <button class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg">Clear Cache</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Toggle sidebar on mobile
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('-translate-x-full');
+        });
+
+        // Toggle user menu
+        document.getElementById('userMenuButton').addEventListener('click', function() {
+            document.getElementById('userMenu').classList.toggle('hidden');
+        });
+
+        // Close user menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('#userMenuButton') && !e.target.closest('#userMenu')) {
+                document.getElementById('userMenu').classList.add('hidden');
+            }
+        });
+
+        // Page navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all links
+                document.querySelectorAll('.nav-link').forEach(el => {
+                    el.classList.remove('active');
+                });
+                
+                // Add active class to clicked link
+                this.classList.add('active');
+                
+                // Hide all pages
+                document.querySelectorAll('.page').forEach(page => {
+                    page.classList.remove('active');
+                });
+                
+                // Show selected page
+                const pageId = this.getAttribute('data-page');
+                document.getElementById(pageId).classList.add('active');
+                
+                // Update page title
+                document.getElementById('pageTitle').textContent = this.textContent.trim();
+                
+                // Close sidebar on mobile
+                if (window.innerWidth < 768) {
+                    document.getElementById('sidebar').classList.add('-translate-x-full');
+                }
+            });
+        });
+
+        // Quick action links
+        document.querySelectorAll('[data-page]').forEach(link => {
+            if (!link.classList.contains('nav-link')) {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const pageId = this.getAttribute('data-page');
+                    
+                    // Remove active class from all links
+                    document.querySelectorAll('.nav-link').forEach(el => {
+                        el.classList.remove('active');
+                    });
+                    
+                    // Add active class to target link
+                    document.querySelector(`.nav-link[data-page="${pageId}"]`).classList.add('active');
+                    
+                    // Hide all pages
+                    document.querySelectorAll('.page').forEach(page => {
+                        page.classList.remove('active');
+                    });
+                    
+                    // Show selected page
+                    document.getElementById(pageId).classList.add('active');
+                    
+                    // Update page title
+                    document.getElementById('pageTitle').textContent = 
+                        document.querySelector(`.nav-link[data-page="${pageId}"]`).textContent.trim();
+                    
+                    // Close sidebar on mobile
+                    if (window.innerWidth < 768) {
+                        document.getElementById('sidebar').classList.add('-translate-x-full');
+                    }
+                });
+            }
+        });
+
+        // Maintenance mode toggle
+        document.querySelectorAll('input[name="siteStatus"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.id === 'siteMaintenance') {
+                    document.getElementById('maintenanceMessageContainer').classList.remove('hidden');
+                } else {
+                    document.getElementById('maintenanceMessageContainer').classList.add('hidden');
+                }
+            });
+        });
+
+        // Initialize maintenance mode display
+        if (document.getElementById('siteMaintenance').checked) {
+            document.getElementById('maintenanceMessageContainer').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
