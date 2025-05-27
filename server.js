@@ -1,6 +1,8 @@
 import express from 'express';
 import connectDB from './config/db.js';
 import dotenv from 'dotenv';
+import adminRoutes from './routes/adminRoutes.js';
+
 
 // Load environment variables
 dotenv.config();
@@ -12,6 +14,8 @@ const port = process.env.PORT || 3000;
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); 
+
+app.use('/api/admin', adminRoutes);
 
 // Database connection
 connectDB();
